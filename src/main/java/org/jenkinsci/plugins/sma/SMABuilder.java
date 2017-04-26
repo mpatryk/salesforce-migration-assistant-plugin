@@ -102,7 +102,6 @@ public class SMABuilder extends Builder {
                 writeToConsole.println("[SMA] Deleting the following metadata:");
                 SMAUtility.printMetadataToConsole(listener, destructiveChanges.getContents());
             }
-
             // Build the zipped deployment package
             ByteArrayOutputStream deploymentPackage = SMAUtility.zipPackage(
                     currentJob.getDeploymentData(),
@@ -137,16 +136,18 @@ public class SMABuilder extends Builder {
                 }
                 smaDeployResult += "\n[SMA] " + (getValidateEnabled() ? "Validation" : "Deployment") + " Succeeded";
 
-                if (!currentJob.getDeployAll() && !getValidateEnabled()) {
-                    createRollbackPackageZip(currentJob);
+                if (!getValidateEnabled()) {
+                    if (!currentJob.getDeployAll()) {
+                        createRollbackPackageZip(currentJob);
+                    }
+                    if (getUseCustomSettings()) {
+                        orgSettings.setGitSha1(currentJob.getCurrentCommit());
+                        orgSettings.setJenkinsJobName(jobVariables.get("JOB_NAME"));
+                        orgSettings.setJenkinsBuildNumber(jobVariables.get("BUILD_NUMBER"));
+                        orgSettings.save();
+                    }
+                    writeToConsole.println("Setting GitSha1 to: " + currentJob.getCurrentCommit());
                 }
-                if (getUseCustomSettings()) {
-                    orgSettings.setGitSha1(currentJob.getCurrentCommit());
-                    orgSettings.setJenkinsJobName(jobVariables.get("JOB_NAME"));
-                    orgSettings.setJenkinsBuildNumber(jobVariables.get("BUILD_NUMBER"));
-                    orgSettings.save();
-                }
-                writeToConsole.println("Setting GitSha1 to: " + currentJob.getCurrentCommit());
             } else {
                 smaDeployResult = sfConnection.getComponentFailures();
 
@@ -160,9 +161,8 @@ public class SMABuilder extends Builder {
         }
         parameterValues.add(new StringParameterValue("smaDeployResult", smaDeployResult));
         build.addAction(new ParametersAction(parameterValues));
-
         writeToConsole.println(smaDeployResult);
-//        return true;
+
         return JOB_SUCCESS;
     }
 
