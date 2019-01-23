@@ -25,9 +25,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:ssh://github.com/jenkinsci/salesforce-migration-assistant-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/salesforce-migration-assistant-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/salesforce-migration-assistant-plugin</url>
+        <connection>scm:git:ssh://github.com/mpatryk/salesforce-migration-assistant-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/mpatryk/salesforce-migration-assistant-plugin.git</developerConnection>
+        <url>https://github.com/mpatryk/salesforce-migration-assistant-plugin.git</url>
         <tag>HEAD</tag>
     </scm>
 
