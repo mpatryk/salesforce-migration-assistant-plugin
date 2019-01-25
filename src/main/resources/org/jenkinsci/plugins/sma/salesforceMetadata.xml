@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <version API="41.0">
+    <extension name="*">
+        <metadata>AuraDefinitionBundle</metadata>
+        <container>aura</container>
+        <destructible>true</destructible>
+        <metaxml>true</metaxml>
+    </extension>
+
     <extension name="app">
         <metadata>CustomApplication</metadata>
         <container>applications</container>
